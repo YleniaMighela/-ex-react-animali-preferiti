@@ -14,20 +14,35 @@
     <!-- creazione del componente -->
     <script type="text/babel">
 
+        const { useState } = React;
+
+        const animaliRandom = ["Cane", "Gatto", "Topo", "Coniglio", "Criceto", "Cavallo", "Panda"];
+
         const ListaAnimali = () => {
 
-            const animali = ["Cane", "Gatto", "Topo", "Coniglio", "Criceto"];
+            const [animali, setAnimali] = useState([]);
+
+            const aggiungi = () => {
+
+                const animaleCasuale = animaliRandom[Math.floor(Math.random() * animaliRandom.length)];
+                // prendo il valore di "prima" creando un nuovo array in cui vengono copiati i precendeti animali, aggiornando lo stato con la nuova lista
+                setAnimali(prima => [...prima, animaleCasuale]);
+            };
 
             return (
                 // mappo all'interno dell'array per estrapolare gli animali presenti
-                <details>
-                    <summary>ANIMALI</summary>
-                    <ul>
-                        {animali.map((animale, index) => (
-                            <li key={index}>{animale}</li>
-                        ))}
-                    </ul>
-                </details>
+                <>
+                    <button onClick={aggiungi}> Aggiungi Animale</button>
+
+                    <details>
+                        <summary>ANIMALI</summary>
+                        <ul>
+                            {animali.map((animale, index) => (
+                                <li key={index}>{animale}</li>
+                            ))}
+                        </ul>
+                    </details>
+                </>
             );
         };
 
