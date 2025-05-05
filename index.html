@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I miei animali Preferiti</title>
     <link rel="stylesheet" href="style.css">
+    <title>I miei animali Preferiti</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="icon" href="data:,">
+
+    <!-- creazione del componente -->
+    <script type="text/babel">
+
+        const ListaAnimali = () => {
+
+            const animali = ["Cane", "Gatto", "Topo", "Coniglio", "Criceto"];
+
+            return (
+                // mappo all'interno dell'array per estrapolare gli animali presenti
+                <details>
+                    <summary>ANIMALI</summary>
+                    <ul>
+                        {animali.map((animale, index) => (
+                            <li key={index}>{animale}</li>
+                        ))}
+                    </ul>
+                </details>
+            );
+        };
+
+        // monto il componente per farsi che si possa vedere
+        const { createRoot } = ReactDOM;
+        const contenitoreLista = document.querySelector('.lista-animali');
+        const root = createRoot(contenitoreLista);
+        root.render(<ListaAnimali />);
+    </script>
 </head>
+
+
+
 
 <body>
     <header>
@@ -21,6 +55,8 @@
     <footer>
         <p>Creato con amore da... un collega sbadato! 🐾</p>
     </footer>
+
+
 </body>
 
 </html>
