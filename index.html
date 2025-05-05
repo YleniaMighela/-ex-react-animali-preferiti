@@ -16,23 +16,53 @@
 
         const { useState } = React;
 
+        function Modal({
+            title,
+            content,
+            show = false,
+            onClose = () => { },
+            onConfirm = () => { }
+
+        }) {
+            return show && ReactDOM.createPortal(
+                <div className="modal-container">
+                    <div className="modal">
+                        <h2>{title}</h2>
+                        <p>{content}</p>
+                        <div>
+                            <button onClick={onClose}>Annulla</button>
+                            <button onClick={onConfirm}>Conferma</button>
+
+                        </div>
+
+                    </div>
+                </div>,
+                document.body
+            )
+        }
 
 
         const ListaAnimali = () => {
-            const animaliRandom = ["Cane", "Gatto", "Topo", "Coniglio", "Criceto", "Cavallo", "Panda"];
+            // const animaliRandom = ["Cane", "Gatto", "Topo", "Coniglio", "Criceto", "Cavallo", "Panda"];
             const [animali, setAnimali] = useState([]);
 
-            const aggiungi = () => {
+            // state per gestire l'apertura o chiusura della modale
+            const [mostra, setMostra] = useState(false);
 
-                const animaleCasuale = animaliRandom[Math.floor(Math.random() * animaliRandom.length)];
-                // prendo il valore di "prima" creando un nuovo array in cui vengono copiati i precendeti animali, aggiornando lo stato con la nuova lista
-                setAnimali(prima => [...prima, animaleCasuale]);
+            const [nuovoAnimale, setNuovoAnimale] = useState("");
+
+            const aggiungi = () => {
+                if (nuovoAnimale) {
+                    setAnimali(prima => [...prima, nuovoAnimale]);
+                    setNuovoAnimale("");  // resetta l'input subito dopo l'aggiunta del nuovo animale
+                    setMostra(false);  // Chiude la modale dopo l'aggiunta dell'animale
+                }
             };
 
             return (
                 // mappo all'interno dell'array per estrapolare gli animali presenti
                 <>
-                    <button onClick={aggiungi}> Aggiungi Animale</button>
+                    <button onClick={() => setMostra(true)}> Aggiungi Animale</button>
 
                     <details>
                         <summary>ANIMALI</summary>
@@ -42,6 +72,21 @@
                             ))}
                         </ul>
                     </details>
+                    <Modal
+                        show={mostra}
+                        onClose={() => setMostra(false)}
+                        onConfirm={(aggiungi)}
+                        title="Aggiungi animale"
+                        content={
+                            <input
+                                type="text"
+                                value={nuovoAnimale}
+                                onChange={e => setNuovoAnimale(e.target.value)}
+                                placeholder="Inserisci un animale"
+                            />
+                        }
+
+                    />
                 </>
             );
         };
